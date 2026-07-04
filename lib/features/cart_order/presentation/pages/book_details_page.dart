@@ -112,7 +112,7 @@ class _BookDetailsPageState extends ConsumerState<BookDetailsPage> {
 
                 // ── Author ────────────────────────────────────────────
                 Text(
-                  book.author,
+                 "BY ${book.author.toUpperCase()}",
                   style: const TextStyle(
                     fontSize: 13,
                     color: Color(0xFF8E98A5),
@@ -131,7 +131,7 @@ class _BookDetailsPageState extends ConsumerState<BookDetailsPage> {
                         book.shopName ?? '123 Library, Book City',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(fontSize: 12, color: Color(0xFF8E98A5)),
+                        style: const TextStyle(fontSize: 12, color: Color.fromARGB(255, 99, 105, 112)),
                       ),
                     ),
                   ],
