@@ -227,7 +227,7 @@ class _HomeTabState extends ConsumerState<HomeTab> {
                                         ? Image.network(
                                             previewUrl,
                                             fit: BoxFit.cover,
-                                            errorBuilder: (_, __, ___) =>
+                                            errorBuilder: (_, _, _) =>
                                                 const Icon(
                                                   Icons.menu_book_outlined,
                                                   color: Color(0xFF9CA6B3),
@@ -242,7 +242,7 @@ class _HomeTabState extends ConsumerState<HomeTab> {
                                         : Image.asset(
                                             previewPath,
                                             fit: BoxFit.cover,
-                                            errorBuilder: (_, __, ___) =>
+                                            errorBuilder: (_, _, _) =>
                                                 const Icon(
                                                   Icons.menu_book_outlined,
                                                   color: Color(0xFF9CA6B3),

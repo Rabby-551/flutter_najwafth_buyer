@@ -193,6 +193,7 @@ class AppLocalizations {
   String get processing => isFrench ? 'En cours' : 'Processing';
   String get picked => isFrench ? 'Récupérée' : 'Picked';
   String get delivered => isFrench ? 'Livrée' : 'Delivered';
+  String get cancelled => isFrench ? 'Annulée' : 'Cancelled';
   String get failedToLoadOrders =>
       isFrench ? 'Échec du chargement des commandes' : 'Failed to load orders';
   String get noOrdersFound =>

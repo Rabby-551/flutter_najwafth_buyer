@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../core/errors/result.dart';
 import '../../../../core/localization/app_localizations.dart';
+import '../../application/order_controller.dart';
 import '../../domain/order_models.dart';
 import '../widgets/review_bottom_sheet.dart';
 
@@ -17,7 +20,7 @@ BoxDecoration _cardDecoration({double radius = 16}) => BoxDecoration(
   ],
 );
 
-class OrderDetailsPage extends StatelessWidget {
+class OrderDetailsPage extends ConsumerWidget {
   const OrderDetailsPage({super.key, required this.order});
 
   static const Color _accentBlue = Color(0xFF2E9BE5);
@@ -25,7 +28,7 @@ class OrderDetailsPage extends StatelessWidget {
   final OrderModel order;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Colors.white,
@@ -63,7 +66,7 @@ class OrderDetailsPage extends StatelessWidget {
       ),
       floatingActionButton: order.status == OrderStatus.delivered
           ? FloatingActionButton.extended(
-              onPressed: () => _openReview(context),
+              onPressed: () => _openReview(context, ref),
               backgroundColor: _accentBlue,
               icon: const Icon(Icons.rate_review, color: Colors.white),
               label: Text(
@@ -75,18 +78,44 @@ class OrderDetailsPage extends StatelessWidget {
     );
   }
 
-  Future<void> _openReview(BuildContext context) async {
+  Future<void> _openReview(BuildContext context, WidgetRef ref) async {
     final l10n = AppLocalizations.of(context);
     final messenger = ScaffoldMessenger.of(context);
     final result = await ReviewBottomSheet.show(
       context,
       reviewerName: order.customerName,
     );
-    if (result != null) {
-      messenger.showSnackBar(
-        SnackBar(content: Text(l10n.reviewSubmitted)),
+    if (result == null) return;
+
+    final repository = ref.read(orderRepositoryProvider);
+    final bookIds = order.items
+        .map((item) => item.id)
+        .where((id) => id.isNotEmpty)
+        .toSet();
+
+    String? errorMessage;
+    var submitted = false;
+    for (final bookId in bookIds) {
+      final response = await repository.submitBookReview(
+        bookId: bookId,
+        rating: result.rating,
+        comment: result.comment,
       );
+      switch (response) {
+        case Success():
+          submitted = true;
+        case ResultFailure(error: final failure):
+          errorMessage ??= failure.message;
+      }
     }
+
+    messenger.showSnackBar(
+      SnackBar(
+        content: Text(
+          submitted ? l10n.reviewSubmitted : (errorMessage ?? l10n.reviewSubmitted),
+        ),
+      ),
+    );
   }
 
   Widget _buildDeliveryAndContact(BuildContext context) {

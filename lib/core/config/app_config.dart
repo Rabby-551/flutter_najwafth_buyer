@@ -27,16 +27,20 @@ final class AppConfig {
   bool get isProduction => environment == AppEnvironment.production;
 }
 
+/// Overridable at build time:
+/// flutter run --dart-define=API_BASE_URL=https://api.booksonwheeels.com/api/v1
+const String _apiBaseUrlOverride = String.fromEnvironment('API_BASE_URL');
+
 String _defaultDevBaseUrl() {
+  if (_apiBaseUrlOverride.isNotEmpty) return _apiBaseUrlOverride;
+
   if (kIsWeb) {
-    return 'http://localhost:5002/api/v1';
+    return 'http://localhost:5001/api/v1';
   }
 
   return switch (defaultTargetPlatform) {
-    // 10.0.2.2 = host machine's localhost as seen from the Android emulator.
-    // For a physical Android device on the same Wi-Fi, use the Mac's LAN IP
-    // instead (currently 10.10.26.113).
-    TargetPlatform.android => 'http://10.0.2.2:5002/api/v1',
-    _ => 'http://localhost:5002/api/v1',
+    // Android emulators reach the host machine via 10.0.2.2, not localhost.
+    TargetPlatform.android => 'http://10.0.2.2:5001/api/v1',
+    _ => 'http://localhost:5001/api/v1',
   };
 }

@@ -58,6 +58,7 @@ final class AppFailure {
       DioExceptionType.connectionTimeout => 'Connection timed out.',
       DioExceptionType.sendTimeout => 'Request timed out.',
       DioExceptionType.receiveTimeout => 'Response timed out.',
+      DioExceptionType.transformTimeout => 'Request timed out.',
       DioExceptionType.badCertificate => 'Unable to verify the server.',
       DioExceptionType.badResponse => 'The server returned an error.',
       DioExceptionType.cancel => 'Request was cancelled.',

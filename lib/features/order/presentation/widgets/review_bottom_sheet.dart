@@ -105,7 +105,7 @@ class _ReviewBottomSheetState extends State<ReviewBottomSheet> {
               const SizedBox(width: 12),
               Expanded(
                 child: Text(
-                  widget.reviewerName ?? 'Madiha Lata',
+                  widget.reviewerName ?? '',
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
