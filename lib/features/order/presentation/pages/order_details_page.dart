@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/errors/result.dart';
 import '../../../../core/localization/app_localizations.dart';
+import '../../../../core/widgets/top_toast.dart';
 import '../../application/order_controller.dart';
 import '../../domain/order_models.dart';
 import '../widgets/review_bottom_sheet.dart';
@@ -80,7 +81,7 @@ class OrderDetailsPage extends ConsumerWidget {
 
   Future<void> _openReview(BuildContext context, WidgetRef ref) async {
     final l10n = AppLocalizations.of(context);
-    final messenger = ScaffoldMessenger.of(context);
+    final overlay = Overlay.of(context, rootOverlay: true);
     final result = await ReviewBottomSheet.show(
       context,
       reviewerName: order.customerName,
@@ -109,12 +110,11 @@ class OrderDetailsPage extends ConsumerWidget {
       }
     }
 
-    messenger.showSnackBar(
-      SnackBar(
-        content: Text(
-          submitted ? l10n.reviewSubmitted : (errorMessage ?? l10n.reviewSubmitted),
-        ),
-      ),
+    showTopToast(
+      null,
+      overlay: overlay,
+      title: submitted ? l10n.reviewSubmitted : (errorMessage ?? l10n.reviewSubmitted),
+      type: submitted ? ToastType.success : ToastType.error,
     );
   }
 

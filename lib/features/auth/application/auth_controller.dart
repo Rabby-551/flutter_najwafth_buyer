@@ -586,14 +586,19 @@ Map<String, dynamic> _unwrap(Result<Map<String, dynamic>> result) {
     Success(data: final data) => data,
     ResultFailure(error: final error) => throw AuthFlowException(
         error.message,
+        isNetworkError: error.isNetworkError,
       ),
   };
 }
 
 final class AuthFlowException implements Exception {
-  const AuthFlowException(this.message);
+  const AuthFlowException(this.message, {this.isNetworkError = false});
 
   final String message;
+
+  /// True when the failure was caused by the device being offline / unable to
+  /// reach the server, as opposed to a validation or backend error.
+  final bool isNetworkError;
 
   @override
   String toString() => message;

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/localization/app_localizations.dart';
+import '../../../../core/widgets/top_toast.dart';
 
 /// Result returned when the user posts a review.
 class ReviewResult {
@@ -54,9 +55,7 @@ class _ReviewBottomSheetState extends State<ReviewBottomSheet> {
   void _post() {
     final l10n = AppLocalizations.of(context);
     if (_rating == 0) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.selectRating)),
-      );
+      showTopToast(context, title: l10n.selectRating, type: ToastType.error);
       return;
     }
     Navigator.of(context).pop(

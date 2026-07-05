@@ -75,6 +75,12 @@ class AppLocalizations {
       isFrench ? 'La connexion Google n’est pas encore configurée.' : 'Google sign-in is not configured yet.';
   String get facebookNotConfigured =>
       isFrench ? 'La connexion Facebook n’est pas encore configurée.' : 'Facebook sign-in is not configured yet.';
+  String get noInternetConnection => isFrench
+      ? 'Pas de connexion Internet. Vérifiez votre réseau et réessayez.'
+      : 'No internet connection. Check your network and try again.';
+  String get somethingWentWrong => isFrench
+      ? 'Une erreur s’est produite. Veuillez réessayer.'
+      : 'Something went wrong. Please try again.';
   String get letsGetStarted =>
       isFrench ? 'Commençons !' : 'Let’s Get Started!';
   String get createAnAccount =>
@@ -234,6 +240,8 @@ class AppLocalizations {
   String get outOfStock => isFrench ? 'Rupture de stock' : 'Out of Stock';
   String addedToCart(String title) =>
       isFrench ? '$title ajouté au panier' : '$title added to cart';
+  String get addedToCartTitle =>
+      isFrench ? 'Ajouté au panier' : 'Added to cart';
 
   String get editProfile => isFrench ? 'Modifier le profil' : 'Edit Profile';
   String get changePassword =>

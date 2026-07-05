@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../core/localization/app_localizations.dart';
+import '../../../../core/widgets/top_toast.dart';
 import '../../application/profile_controller.dart';
 
 class EditProfilePage extends ConsumerStatefulWidget {
@@ -93,7 +94,10 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
         return;
       }
 
-      _showMessage(AppLocalizations.of(context).profileUpdated);
+      _showMessage(
+        AppLocalizations.of(context).profileUpdated,
+        type: ToastType.success,
+      );
       Navigator.pop(context);
     } on Exception catch (error) {
       _showMessage(error.toString().replaceFirst('Exception: ', ''));
@@ -147,10 +151,8 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
     );
   }
 
-  void _showMessage(String message) {
-    ScaffoldMessenger.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(SnackBar(content: Text(message)));
+  void _showMessage(String message, {ToastType type = ToastType.error}) {
+    showTopToast(context, title: message, type: type);
   }
 
   @override
