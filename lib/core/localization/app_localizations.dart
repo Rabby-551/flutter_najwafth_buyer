@@ -727,6 +727,41 @@ These Terms of Sale are subject to French law.""";
       isFrench ? 'Veuillez sélectionner une note.' : 'Please select a rating.';
   String get reviewSubmitted =>
       isFrench ? 'Merci pour votre avis !' : 'Thanks for your review!';
+  String get reviewsAndRatings =>
+      isFrench ? 'Avis et évaluations' : 'Reviews & Ratings';
+  String get writeAReview => isFrench ? 'Rédiger un avis' : 'Write a Review';
+  String get seeWhatOthersSaying =>
+      isFrench ? 'Découvrez ce que disent les autres' : 'See what others are saying';
+  String get noReviewsYet => isFrench
+      ? 'Aucun avis pour le moment. Soyez le premier à donner votre avis.'
+      : 'No reviews yet. Be the first to review this book.';
+  String reviewsCount(int count) =>
+      isFrench ? '$count avis' : '$count reviews';
+  String get reviewAfterDelivery => isFrench
+      ? 'Vous pourrez laisser un avis une fois votre commande livrée.'
+      : 'You can leave a review once your order is delivered.';
+
+  /// Localized relative time such as "2 hours ago" for review timestamps.
+  String timeAgo(DateTime dateTime) {
+    final diff = DateTime.now().difference(dateTime);
+    if (diff.inMinutes < 1) {
+      return isFrench ? "à l'instant" : 'Just now';
+    }
+    if (diff.inMinutes < 60) {
+      final m = diff.inMinutes;
+      return isFrench ? 'il y a $m min' : '$m min ago';
+    }
+    if (diff.inHours < 24) {
+      final h = diff.inHours;
+      return isFrench
+          ? 'il y a $h heure${h > 1 ? 's' : ''}'
+          : '$h hour${h > 1 ? 's' : ''} ago';
+    }
+    final d = diff.inDays;
+    return isFrench
+        ? 'il y a $d jour${d > 1 ? 's' : ''}'
+        : '$d day${d > 1 ? 's' : ''} ago';
+  }
 
   String get requiredField => isFrench ? 'Ce champ' : 'This field';
   String requiredMessage(String label) =>

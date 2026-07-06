@@ -76,6 +76,37 @@ Color _parseCategoryColor(dynamic input) {
   return value == null ? fallback : Color(value);
 }
 
+/// A single review left on a book, as returned by `GET /book/:id`.
+final class BookReview {
+  const BookReview({
+    required this.id,
+    required this.userName,
+    required this.rating,
+    required this.comment,
+    this.createdAt,
+  });
+
+  final String id;
+  final String userName;
+  final int rating;
+  final String comment;
+  final DateTime? createdAt;
+
+  factory BookReview.fromJson(Map<String, dynamic> json) {
+    final user = json['user'];
+    final userName = user is Map<String, dynamic>
+        ? (user['name']?.toString() ?? '')
+        : '';
+    return BookReview(
+      id: (json['_id'] ?? json['id'])?.toString() ?? '',
+      userName: userName,
+      rating: (json['rating'] as num?)?.toInt() ?? 0,
+      comment: json['comment']?.toString() ?? '',
+      createdAt: DateTime.tryParse(json['createdAt']?.toString() ?? ''),
+    );
+  }
+}
+
 final class BookItem {
   const BookItem({
     required this.id,
@@ -86,6 +117,7 @@ final class BookItem {
     required this.price,
     this.rating = 0.0,
     this.reviewCount = 0,
+    this.reviews = const [],
     this.description = '',
     this.categoryId = '',
     this.categoryName = '',
@@ -123,6 +155,11 @@ final class BookItem {
       }
     }
 
+    final reviews = (json['reviews'] as List<dynamic>? ?? const [])
+        .whereType<Map<String, dynamic>>()
+        .map(BookReview.fromJson)
+        .toList(growable: false);
+
     final rawId = (json['_id'] ?? json['id'])?.toString() ?? '';
     final rawStock = json['stock'];
     final inStock = switch (rawStock) {
@@ -142,6 +179,9 @@ final class BookItem {
           ? coverImage
           : null,
       price: (json['price'] as num?)?.toDouble() ?? 0.0,
+      rating: (json['avgRating'] as num?)?.toDouble() ?? 0.0,
+      reviewCount: reviews.length,
+      reviews: reviews,
       description: json['description']?.toString() ?? '',
       categoryId: categoryId,
       categoryName: categoryName,
@@ -159,6 +199,7 @@ final class BookItem {
   final double price;
   final double rating;
   final int reviewCount;
+  final List<BookReview> reviews;
   final String description;
   final String categoryId;
   final String categoryName;
