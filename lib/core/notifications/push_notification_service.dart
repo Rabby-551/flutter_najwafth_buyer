@@ -6,23 +6,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../features/notification/application/notification_provider.dart';
 import 'dart:developer' as dev_console show log;
 
-/// Background isolate handler. Must be a top-level function annotated with
-/// `@pragma('vm:entry-point')`. When a data/notification message arrives while
-/// the app is terminated or backgrounded, the OS shows it in the system tray
-/// automatically; this handler just exists so FCM can wake the isolate.
+
 @pragma('vm:entry-point')
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  // No-op: notification messages are rendered by the OS tray. We intentionally
-  // avoid extra work here to keep the background isolate lightweight.
 }
 
 final pushNotificationServiceProvider = Provider<PushNotificationService>((ref) {
   return PushNotificationService(ref);
 });
 
-/// Owns the FCM lifecycle: permission, token registration with the backend,
-/// token refresh, and refreshing the in-app notification list when a push
-/// arrives while the app is in the foreground.
+
 class PushNotificationService {
   PushNotificationService(this._ref);
 
@@ -79,9 +72,12 @@ class PushNotificationService {
   Future<void> _registerCurrentToken() async {
     try {
       final token = await FirebaseMessaging.instance.getToken();
+
       if (token == null || token.isEmpty) return;
+      print('[push] token: $token');
       _currentToken = token;
       await _safeRegister(token);
+
     } catch (e) {
       dev_console.log('[push] token fetch failed: $e');
       
@@ -103,9 +99,13 @@ class PushNotificationService {
 
   Future<String?> _safeGetToken() async {
     try {
-      return await FirebaseMessaging.instance.getToken();
+      final token = _currentToken ?? await FirebaseMessaging.instance.getToken();
+      // return await FirebaseMessaging.instance.getToken();
+      print('[push] token: $token');
+      return token;
     } catch (_) {
       return null;
     }
+
   }
 }

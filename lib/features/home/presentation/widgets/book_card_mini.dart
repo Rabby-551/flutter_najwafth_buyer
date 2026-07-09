@@ -79,12 +79,12 @@ class BookCardMini extends ConsumerWidget {
                 ),
                 const SizedBox(width: 4),
                 const Spacer(),
-                GestureDetector(
+                InkWell(
                   onTap: () => _addToCart(context, ref),
                   child: const CircleAvatar(
                     radius: 14,
                     backgroundColor: Color(0xFF5A91C4),
-                    child: Icon(Icons.add, color: Colors.white, size: 24),
+                    child: Icon(Icons.add, color: Colors.white, size: 24,),
                   ),
                 ),
               ],

@@ -134,9 +134,12 @@ class OrderDetailsPage extends ConsumerWidget {
                   children: [
                     const Icon(Icons.location_on_outlined, size: 16, color: _accentBlue),
                     const SizedBox(width: 6),
-                    Text(
-                      AppLocalizations.of(context).deliveryAddress,
-                      style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Color(0xFF243041)),
+                    Expanded(
+                      child: Text(
+                        AppLocalizations.of(context).deliveryAddress,
+                        style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Color(0xFF243041)),
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                   ],
                 ),
@@ -389,7 +392,8 @@ class OrderDetailsPage extends ConsumerWidget {
                     ),
                   ],
                 ),
-              )),
+              ),
+            ),
         ],
       ),
     );

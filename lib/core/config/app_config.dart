@@ -35,12 +35,12 @@ String _defaultDevBaseUrl() {
   if (_apiBaseUrlOverride.isNotEmpty) return _apiBaseUrlOverride;
 
   if (kIsWeb) {
-    return 'http://localhost:5001/api/v1';
+    return 'https://api.booksonwheeels.com/api/v1';
   }
 
   return switch (defaultTargetPlatform) {
     // Android emulators reach the host machine via 10.0.2.2, not localhost.
-    TargetPlatform.android => 'http://10.0.2.2:5001/api/v1',
-    _ => 'http://localhost:5001/api/v1',
+    TargetPlatform.android => 'https://api.booksonwheeels.com/api/v1',
+    _ => 'https://api.booksonwheeels.com/api/v1',
   };
 }
