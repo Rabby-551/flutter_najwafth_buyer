@@ -1,20 +1,16 @@
-
+import 'dart:developer' as dev_console show log;
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../features/notification/application/notification_provider.dart';
-import 'dart:developer' as dev_console show log;
-
 
 @pragma('vm:entry-point')
-Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-}
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {}
 
 final pushNotificationServiceProvider = Provider<PushNotificationService>((ref) {
   return PushNotificationService(ref);
 });
-
 
 class PushNotificationService {
   PushNotificationService(this._ref);
@@ -42,9 +38,6 @@ class PushNotificationService {
         sound: true,
       );
 
-      // iOS needs the APNS token before the FCM token is available.
-      await messaging.getAPNSToken();
-
       await _registerCurrentToken();
 
       messaging.onTokenRefresh.listen((token) {
@@ -71,16 +64,19 @@ class PushNotificationService {
 
   Future<void> _registerCurrentToken() async {
     try {
+      final canFetchToken = await _canFetchFirebaseToken();
+      if (!canFetchToken) {
+        return;
+      }
+
       final token = await FirebaseMessaging.instance.getToken();
 
       if (token == null || token.isEmpty) return;
-      print('[push] token: $token');
+      debugPrint('[push] token: ${_maskToken(token)}');
       _currentToken = token;
       await _safeRegister(token);
-
     } catch (e) {
       dev_console.log('[push] token fetch failed: $e');
-      
     }
   }
 
@@ -99,13 +95,38 @@ class PushNotificationService {
 
   Future<String?> _safeGetToken() async {
     try {
+      final canFetchToken = await _canFetchFirebaseToken();
+      if (!canFetchToken) {
+        return null;
+      }
+
       final token = _currentToken ?? await FirebaseMessaging.instance.getToken();
-      // return await FirebaseMessaging.instance.getToken();
-      print('[push] token: $token');
+      debugPrint('[push] token: ${token == null ? null : _maskToken(token)}');
       return token;
     } catch (_) {
       return null;
     }
+  }
 
+  Future<bool> _canFetchFirebaseToken() async {
+    if (defaultTargetPlatform != TargetPlatform.iOS &&
+        defaultTargetPlatform != TargetPlatform.macOS) {
+      return true;
+    }
+
+    final apnsToken = await FirebaseMessaging.instance.getAPNSToken();
+    if (apnsToken == null || apnsToken.isEmpty) {
+      dev_console.log('[push] APNS token not ready; skipping FCM registration');
+      return false;
+    }
+
+    return true;
+  }
+
+  String _maskToken(String token) {
+    if (token.length <= 12) {
+      return '***';
+    }
+    return '${token.substring(0, 6)}...${token.substring(token.length - 6)}';
   }
 }

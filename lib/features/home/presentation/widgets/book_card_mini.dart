@@ -23,7 +23,7 @@ class BookCardMini extends ConsumerWidget {
       subtitle: book.title,
     );
   }
-
+  
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(

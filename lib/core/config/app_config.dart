@@ -29,6 +29,7 @@ final class AppConfig {
 
 /// Overridable at build time:
 /// flutter run --dart-define=API_BASE_URL=https://api.booksonwheeels.com/api/v1
+/// flutter run --dart-define=API_BASE_URL=https://localhost.com:5002/api/v1
 const String _apiBaseUrlOverride = String.fromEnvironment('API_BASE_URL');
 
 String _defaultDevBaseUrl() {
@@ -40,7 +41,7 @@ String _defaultDevBaseUrl() {
 
   return switch (defaultTargetPlatform) {
     // Android emulators reach the host machine via 10.0.2.2, not localhost.
-    TargetPlatform.android => 'https://api.booksonwheeels.com/api/v1',
+    TargetPlatform.android => 'http://10.10.26.111:5002/api/v1',
     _ => 'https://api.booksonwheeels.com/api/v1',
   };
 }
