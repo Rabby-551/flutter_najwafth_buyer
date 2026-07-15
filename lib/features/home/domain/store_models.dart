@@ -125,6 +125,7 @@ final class BookItem {
     this.coverAccent = const Color(0xFFE8F0FE),
     this.stock = true,
     this.shopName,
+    this.shopAddress,
     this.isFeatured = false,
     this.isPopular = false,
   });
@@ -143,8 +144,13 @@ final class BookItem {
     }
 
     String? shopName;
+    String? shopAddress;
     if (shop is Map<String, dynamic>) {
       shopName = shop['name']?.toString();
+      final rawAddress = shop['address']?.toString().trim();
+      if (rawAddress != null && rawAddress.isNotEmpty) {
+        shopAddress = rawAddress;
+      }
     }
 
     var coverImage = json['coverImage']?.toString();
@@ -187,6 +193,7 @@ final class BookItem {
       categoryName: categoryName,
       stock: inStock,
       shopName: shopName,
+      shopAddress: shopAddress,
       isPopular: true,
     );
   }
@@ -207,6 +214,18 @@ final class BookItem {
   final Color coverAccent;
   final bool stock;
   final String? shopName;
+  final String? shopAddress;
+
+  /// Label shown next to the location pin on product cards: the seller's
+  /// address when available, then the shop name, then the author so the
+  /// row is never blank while sellers haven't filled in their address.
+  String get placeName {
+    final address = shopAddress;
+    if (address != null && address.isNotEmpty) return address;
+    final name = shopName;
+    if (name != null && name.isNotEmpty) return name;
+    return author;
+  }
   final bool isFeatured;
   final bool isPopular;
 }

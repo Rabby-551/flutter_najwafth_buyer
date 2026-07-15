@@ -60,10 +60,10 @@ class BookCardMini extends ConsumerWidget {
             ),
             Row(
               children: [
-                const Icon(Icons.location_on_outlined, color: Color(0xFF5A91C4), size: 18),
+                const Icon(Icons.history_edu, color: Color(0xFF5A91C4), size: 20),
                 const SizedBox(width: 6),
                 Expanded(
-                  child: Text(book.author, maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 12, color: Color(0xFFAFB7C1))),
+                  child: Text(book.placeName, maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 12, color: Color(0xFFAFB7C1))),
                 ),
               ],
             ),
