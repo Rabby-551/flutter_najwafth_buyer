@@ -811,6 +811,31 @@ These Terms of Sale are subject to French law.""";
   String get passwordsDoNotMatch => isFrench
       ? 'Les mots de passe ne correspondent pas.'
       : 'Passwords do not match.';
+
+  // Checkout form
+  String get enterValidName => isFrench
+      ? 'Entrez un nom valide (lettres uniquement).'
+      : 'Enter a valid name (letters only).';
+  String get enterCompleteAddress => isFrench
+      ? 'Veuillez saisir une adresse complète.'
+      : 'Please enter a complete address.';
+  String get enterValidPhone => isFrench
+      ? 'Entrez un numéro de téléphone valide.'
+      : 'Enter a valid phone number.';
+  String get phoneTooShort => isFrench
+      ? 'Ce numéro est trop court.'
+      : 'This number is too short.';
+  String get phoneTooLong =>
+      isFrench ? 'Ce numéro est trop long.' : 'This number is too long.';
+  String get selectCountry => isFrench ? 'Sélectionner le pays' : 'Select country';
+  String get searchCountry =>
+      isFrench ? 'Rechercher un pays' : 'Search country';
+  String get noCountryFound =>
+      isFrench ? 'Aucun pays trouvé' : 'No country found';
+  String get suggestions => isFrench ? 'Suggestions' : 'Suggestions';
+  String get pleaseFixErrors => isFrench
+      ? 'Veuillez corriger les champs en surbrillance.'
+      : 'Please fix the highlighted fields.';
 }
 
 class _AppLocalizationsDelegate
