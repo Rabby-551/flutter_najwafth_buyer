@@ -8,7 +8,9 @@ import '../../../auth/application/auth_controller.dart';
 import '../../../home/application/book_provider.dart';
 import '../../../home/application/store_controller.dart';
 import '../../../home/domain/store_models.dart';
+import '../../../home/presentation/widgets/store_widgets.dart';
 import '../../../order/application/order_controller.dart';
+import '../../../order/domain/order_models.dart';
 import '../../../order/presentation/widgets/review_bottom_sheet.dart';
 
 class BookDetailsPage extends ConsumerStatefulWidget {
@@ -143,24 +145,27 @@ class _BookDetailsPageState extends ConsumerState<BookDetailsPage> {
                 ),
                 const SizedBox(height: 12),
 
-                // ── Category chip ─────────────────────────────────────
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFF3F8FC),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Text(
-                      book.categoryName.isNotEmpty ? book.categoryName : l10n.general,
-                      style: const TextStyle(
-                        fontSize: 12,
-                        color: Color(0xFF5A91C4),
-                        fontWeight: FontWeight.w600,
+                // ── Category chip + availability ──────────────────────
+                Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFF3F8FC),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Text(
+                        book.categoryName.isNotEmpty ? book.categoryName : l10n.general,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Color(0xFF5A91C4),
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
-                  ),
+                    const SizedBox(width: 8),
+                    StockBadge(inStock: book.stock),
+                  ],
                 ),
                 const SizedBox(height: 24),
 
@@ -364,10 +369,23 @@ class _BookDetailsPageState extends ConsumerState<BookDetailsPage> {
     Navigator.of(context).pop();
   }
 
+  /// A review is only accepted by the backend once the user has received
+  /// the book, so the button unlocks when a delivered order contains it.
+  bool _canReview(BookItem book) {
+    final orders = ref.watch(orderControllerProvider).asData?.value;
+    if (orders == null) return false;
+    return orders.any(
+      (order) =>
+          order.status == OrderStatus.delivered &&
+          order.items.any((item) => item.id == book.id),
+    );
+  }
+
   // ── Reviews & Ratings ──────────────────────────────────────────────
   Widget _buildReviewsSection(BookItem book) {
     final l10n = AppLocalizations.of(context);
     final reviews = book.reviews;
+    final canReview = _canReview(book);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -411,15 +429,28 @@ class _BookDetailsPageState extends ConsumerState<BookDetailsPage> {
         SizedBox(
           width: double.infinity,
           child: ElevatedButton.icon(
-            onPressed: () => _openReview(book),
+            onPressed: canReview
+                ? () => _openReview(book)
+                : () => showTopToast(
+                      context,
+                      title: l10n.reviewAfterDelivery,
+                      type: ToastType.info,
+                      icon: Icons.local_shipping_outlined,
+                    ),
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF5A91C4),
+              backgroundColor: canReview
+                  ? const Color(0xFF5A91C4)
+                  : const Color(0xFFC5CDD6),
               padding: const EdgeInsets.symmetric(vertical: 12),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
             ),
-            icon: const Icon(Icons.edit_outlined, color: Colors.white, size: 18),
+            icon: Icon(
+              canReview ? Icons.edit_outlined : Icons.lock_outline_rounded,
+              color: Colors.white,
+              size: 18,
+            ),
             label: Text(
               l10n.writeAReview,
               style: const TextStyle(
@@ -430,6 +461,13 @@ class _BookDetailsPageState extends ConsumerState<BookDetailsPage> {
             ),
           ),
         ),
+        if (!canReview) ...[
+          const SizedBox(height: 8),
+          Text(
+            l10n.reviewAfterDelivery,
+            style: const TextStyle(fontSize: 11, color: Color(0xFF8E98A5)),
+          ),
+        ],
         const SizedBox(height: 16),
         if (reviews.isEmpty)
           Text(

@@ -266,6 +266,8 @@ class AppLocalizations {
   String get readMore => isFrench ? 'Lire plus' : 'Read more';
   String get addToCart => isFrench ? 'Ajouter au panier' : 'Add to Cart';
   String get outOfStock => isFrench ? 'Rupture de stock' : 'Out of Stock';
+  String get inStock => isFrench ? 'En stock' : 'In Stock';
+  String get stockOut => isFrench ? 'Rupture' : 'Stock Out';
   String addedToCart(String title) =>
       isFrench ? '$title ajouté au panier' : '$title added to cart';
   String get addedToCartTitle =>
