@@ -22,13 +22,24 @@ dependencies:
   firebase_core: ^4.10.0
   firebase_messaging: ^16.3.0
   flutter_local_notifications: ^22.0.1
+  flutter_stripe: ^13.1.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.14.4
   
+# App icon generation: dart run flutter_launcher_icons
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon/app_icon.png"
+  remove_alpha_ios: true
+  adaptive_icon_background: "#F7F2E7"
+  adaptive_icon_foreground: "assets/icon/app_icon_foreground.png"
+
 flutter:
   uses-material-design: true
 
@@ -37,6 +48,7 @@ flutter:
     - assets/images/
     - assets/images/books/
     - assets/images/onboarding/
+    - assets/images/payment/
 
 
   fonts:

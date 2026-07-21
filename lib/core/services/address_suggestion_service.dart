@@ -12,6 +12,11 @@ final class AddressSuggestion {
     required this.secondary,
     required this.fullAddress,
     required this.isCity,
+    this.street = '',
+    this.city = '',
+    this.postcode = '',
+    this.region = '',
+    this.countryIso = 'FR',
   });
 
   /// Headline — the place itself ("Paris", "8 Boulevard du Port").
@@ -26,6 +31,14 @@ final class AddressSuggestion {
 
   /// Whether this is a commune (city/town) rather than a street address.
   final bool isCity;
+
+  // ── Structured parts, used to auto-fill the checkout address form ──
+  /// Street line (empty for a bare city/town suggestion).
+  final String street;
+  final String city;
+  final String postcode;
+  final String region;
+  final String countryIso;
 }
 
 /// Provides address autocomplete suggestions for anywhere in France.
@@ -194,6 +207,12 @@ class AddressSuggestionService {
       secondary: tail.join(' · '),
       fullAddress: [primary, ...tail].join(', '),
       isCity: isCity,
+      // A commune has no street; a street result exposes its own name.
+      street: isCity ? '' : primary,
+      city: city,
+      postcode: postcode,
+      region: region,
+      countryIso: 'FR',
     );
   }
 
@@ -221,6 +240,9 @@ class AddressSuggestionService {
       secondary: '${p.postalCode} · France',
       fullAddress: '${p.city}, ${p.postalCode}, France',
       isCity: true,
+      city: p.city,
+      postcode: p.postalCode,
+      countryIso: 'FR',
     );
 
     final q = _fold(query.trim());

@@ -838,6 +838,49 @@ These Terms of Sale are subject to French law.""";
   String get pleaseFixErrors => isFrench
       ? 'Veuillez corriger les champs en surbrillance.'
       : 'Please fix the highlighted fields.';
+
+  // Payment
+  String get paymentCancelled =>
+      isFrench ? 'Paiement annulé.' : 'Payment cancelled.';
+  String get paymentFailed => isFrench
+      ? 'Échec du paiement. Veuillez réessayer.'
+      : 'Payment failed. Please try again.';
+  String get paymentsNotConfigured => isFrench
+      ? 'Les paiements ne sont pas encore configurés.'
+      : 'Payments are not configured yet.';
+  String get processingPayment =>
+      isFrench ? 'Traitement du paiement...' : 'Processing payment...';
+
+  // Structured delivery address
+  String get streetAddress =>
+      isFrench ? 'Adresse (rue et numéro)' : 'Street address';
+  String get searchYourAddress =>
+      isFrench ? 'Recherchez votre adresse' : 'Search your address';
+  String get apartmentSuite => isFrench
+      ? 'Appartement, bâtiment, étage (facultatif)'
+      : 'Apartment, building, floor (optional)';
+  String get apartmentHint =>
+      isFrench ? 'Appt, bâtiment, étage...' : 'Apt, building, floor...';
+  String get cityLabel => isFrench ? 'Ville' : 'City';
+  String get enterCity => isFrench ? 'Entrez votre ville' : 'Enter your city';
+  String get postalCodeLabel => isFrench ? 'Code postal' : 'Postal code';
+  String get enterPostalCode => isFrench ? 'Code postal' : 'Postal code';
+  String get stateRegion =>
+      isFrench ? 'Région (facultatif)' : 'State / Region (optional)';
+  String get enterStateRegion =>
+      isFrench ? 'Région' : 'State or region';
+  String get addressDetailsHint => isFrench
+      ? 'Choisissez une suggestion pour remplir automatiquement les champs.'
+      : 'Pick a suggestion to auto-fill the fields below.';
+  String get invalidPostalCode => isFrench
+      ? 'Le code postal doit comporter 5 chiffres.'
+      : 'Postal code must be 5 digits.';
+  String get searchStreetHint => isFrench
+      ? 'Rue, ville ou code postal en France'
+      : 'Street, city or postcode in France';
+  String get noAddressFound => isFrench
+      ? 'Aucune adresse trouvée en France'
+      : 'No matching address in France';
 }
 
 class _AppLocalizationsDelegate

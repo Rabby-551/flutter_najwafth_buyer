@@ -237,6 +237,12 @@ final class CheckoutInput {
     required this.city,
     required this.phone,
     required this.paymentMethod,
+    this.line1 = '',
+    this.line2 = '',
+    this.cityName = '',
+    this.postalCode = '',
+    this.state = '',
+    this.countryIso = '',
   });
 
   final String name;
@@ -244,6 +250,24 @@ final class CheckoutInput {
   final String city;
   final String phone;
   final PaymentMethod paymentMethod;
+
+  // Structured delivery address, persisted with the order on the backend.
+  final String line1;
+  final String line2;
+  final String cityName;
+  final String postalCode;
+  final String state;
+  final String countryIso;
+
+  /// Structured address payload sent to the backend order API.
+  Map<String, dynamic> get addressDetails => {
+    'line1': line1,
+    'line2': line2,
+    'city': cityName,
+    'postalCode': postalCode,
+    'state': state,
+    'country': countryIso,
+  };
 }
 
 final class OrderReceipt {
