@@ -94,6 +94,18 @@ class OrderDetailsPage extends ConsumerWidget {
         .where((id) => id.isNotEmpty)
         .toSet();
 
+    // Nothing reviewable (e.g. the ordered product was removed) — don't claim
+    // a review was submitted when no request was ever made.
+    if (bookIds.isEmpty) {
+      showTopToast(
+        null,
+        overlay: overlay,
+        title: l10n.reviewFailed,
+        type: ToastType.error,
+      );
+      return;
+    }
+
     String? errorMessage;
     var submitted = false;
     for (final bookId in bookIds) {
@@ -113,7 +125,7 @@ class OrderDetailsPage extends ConsumerWidget {
     showTopToast(
       null,
       overlay: overlay,
-      title: submitted ? l10n.reviewSubmitted : (errorMessage ?? l10n.reviewSubmitted),
+      title: submitted ? l10n.reviewSubmitted : (errorMessage ?? l10n.reviewFailed),
       type: submitted ? ToastType.success : ToastType.error,
     );
   }

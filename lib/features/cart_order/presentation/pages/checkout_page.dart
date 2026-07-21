@@ -18,6 +18,7 @@ import '../../../order/application/order_controller.dart';
 import '../../../order/data/order_repository.dart';
 import '../../../order/data/payment_repository.dart';
 import '../../../order/domain/order_models.dart';
+import '../../application/settings_provider.dart';
 import '../widgets/country_code_picker.dart';
 import '../widgets/order_confirmed_sheet.dart';
 
@@ -159,12 +160,14 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage> {
         .map((e) => catalog.firstWhere((b) => b.id == e.key))
         .toList();
 
-    final subtotal = ref
-        .read(storeControllerProvider.notifier)
-        .subtotal(cartItems);
-    final deliveryFee = ref
-        .read(storeControllerProvider.notifier)
-        .deliveryFee(cartItems);
+    final storeController = ref.read(storeControllerProvider.notifier);
+    final subtotal = storeController.subtotal(cartItems);
+    // Delivery fee is the global admin-configured charge from the backend
+    // (GET /admin-settings), applied once per order and added to the total
+    // that gets charged. Falls back to the backend default while loading.
+    final deliveryFee = cartItems.isEmpty
+        ? 0.0
+        : ref.watch(deliveryFeeProvider);
     final total = subtotal + deliveryFee;
 
     return Scaffold(

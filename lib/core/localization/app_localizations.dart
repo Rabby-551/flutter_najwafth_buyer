@@ -760,6 +760,9 @@ These Terms of Sale are subject to French law.""";
       isFrench ? 'Veuillez sélectionner une note.' : 'Please select a rating.';
   String get reviewSubmitted =>
       isFrench ? 'Merci pour votre avis !' : 'Thanks for your review!';
+  String get reviewFailed => isFrench
+      ? "Impossible d'envoyer votre avis."
+      : 'Could not submit your review.';
   String get reviewsAndRatings =>
       isFrench ? 'Avis et évaluations' : 'Reviews & Ratings';
   String get writeAReview => isFrench ? 'Rédiger un avis' : 'Write a Review';

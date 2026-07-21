@@ -123,7 +123,12 @@ final class OrderModel {
     }
 
     final totalAmount = (json['totalAmount'] as num?)?.toDouble() ?? subtotal;
-    final deliveryFee = totalAmount > subtotal ? (totalAmount - subtotal) : 0.0;
+    // The backend stores the delivery charge in a dedicated `shippingFee`
+    // field (see order.controller.createOrder). Prefer it; fall back to any
+    // gap between totalAmount and the item subtotal for legacy orders.
+    final shippingFee = (json['shippingFee'] as num?)?.toDouble();
+    final deliveryFee =
+        shippingFee ?? (totalAmount > subtotal ? (totalAmount - subtotal) : 0.0);
     final createdAtRaw = json['createdAt']?.toString();
     final addressRaw = json['address'];
     final details = json['addressDetails'];
