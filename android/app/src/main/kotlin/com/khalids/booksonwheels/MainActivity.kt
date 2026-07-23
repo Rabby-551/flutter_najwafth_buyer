@@ -1,4 +1,4 @@
-package com.najwafth.buyer.flutter_najwafth_buyer
+package com.khalids.booksonwheels
 
 import io.flutter.embedding.android.FlutterFragmentActivity
 

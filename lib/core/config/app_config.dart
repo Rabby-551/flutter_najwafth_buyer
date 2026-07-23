@@ -11,7 +11,7 @@ import 'package:flutter/foundation.dart';
 // ═════════════════════════════════════════════════════════════════════════
 const bool kUseLiveServer = bool.fromEnvironment(
   'USE_LIVE_SERVER',
-  defaultValue: false,
+  defaultValue: true,
 );
 
 /// Live production API.

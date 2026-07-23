@@ -26,9 +26,6 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<!-- Allow plain-HTTP requests to the local development server
-	     (App Transport Security blocks http:// by default). The live API
-	     uses HTTPS and is unaffected. -->
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>

@@ -8,7 +8,7 @@ plugins {
 }
 
 android {
-    namespace = "com.najwafth.buyer.flutter_najwafth_buyer"
+    namespace = "com.khalids.booksonwheels"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -24,7 +24,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.najwafth.buyer.flutter_najwafth_buyer"
+        applicationId = "com.khalids.booksonwheels"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         // Firebase Messaging requires a minimum SDK of 23.

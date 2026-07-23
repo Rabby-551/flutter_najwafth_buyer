@@ -80,6 +80,7 @@ final class AppFailure {
       case DioExceptionType.badCertificate:
       case DioExceptionType.badResponse:
       case DioExceptionType.cancel:
+      case DioExceptionType.transformTimeout:
         return false;
     }
   }
