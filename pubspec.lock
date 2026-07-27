@@ -165,18 +165,18 @@ packages:
     dependency: "direct main"
     description:
       name: dio
-      sha256: ea2bad3c89a27635ce2d85cce4d6b199da49a5a48ec77b03e45b65a3b90922b0
+      sha256: "0df44ebba85e503958eb75d07eedd3c86275a58c1d3eda2f2ce8f0a2c3abbb3c"
       url: "https://pub.dev"
     source: hosted
-    version: "5.10.0"
+    version: "5.11.0"
   dio_web_adapter:
     dependency: transitive
     description:
       name: dio_web_adapter
-      sha256: dd58dc3861eb36edb13b217efc006a1c21e5bbc341de8c229b85634fa5e362e4
+      sha256: "0786d0b7295a373de356fc0af4f6f1d0ab2844ed31b19dfc5e7556b70e24212c"
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.0"
+    version: "2.2.1"
   fake_async:
     dependency: transitive
     description:
@@ -314,10 +314,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_local_notifications
-      sha256: "40c6a69189a622bda89ddcf50a139f4ba0f0eb9c0fef6718845b1f8b95452ed6"
+      sha256: "9375211fd7df9c070504ac4db7047c7fae857e238291433b770cfe696b5c357a"
       url: "https://pub.dev"
     source: hosted
-    version: "22.1.0"
+    version: "22.2.0"
   flutter_local_notifications_linux:
     dependency: transitive
     description:
@@ -330,10 +330,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_local_notifications_platform_interface
-      sha256: "4dfbae10debab9ac975d8b01943fed94c0c19dad43f825964b29f3c3f9a8a852"
+      sha256: "945a438a4779f3aca3a948718d8a4048cbe9f9c8c797492c00abd5d39112bf37"
       url: "https://pub.dev"
     source: hosted
-    version: "12.0.1"
+    version: "12.1.0"
   flutter_local_notifications_web:
     dependency: transitive
     description:
@@ -367,10 +367,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_riverpod
-      sha256: "9255e1e3ad6e38906a1b4f8287678f95f378744c5b46b1985588543f3f19046e"
+      sha256: a441fd079f11969f526ec04556ba9819fee7d981bdf50fab858066807b36cff9
       url: "https://pub.dev"
     source: hosted
-    version: "3.3.2"
+    version: "3.4.1"
   flutter_stripe:
     dependency: "direct main"
     description:
@@ -545,10 +545,10 @@ packages:
     dependency: transitive
     description:
       name: jni
-      sha256: c2230682d5bc2362c1c9e8d3c7f406d9cbba23ab3f2e203a025dd47e0fb2e68f
+      sha256: ca1efa31ef27a0b8ecbb4f8dcf3785e5ad1b8a54c64af9b72d287ae81f93a4f4
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.0"
+    version: "1.0.1"
   jni_flutter:
     dependency: transitive
     description:
@@ -557,6 +557,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.1"
+  jni_util:
+    dependency: transitive
+    description:
+      name: jni_util
+      sha256: "1ba86da04a5f2bf18fde2edb235587e70c5b0fc5bd4ba955f46b00942c3fc35f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   json_annotation:
     dependency: transitive
     description:
@@ -597,6 +605,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.1.0"
+  listen:
+    dependency: transitive
+    description:
+      name: listen
+      sha256: cb0ad74d7453d8f83a7c1fae401828681ef5df21d41a3a26a04af590c985d085
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0-beta.4"
   logging:
     dependency: transitive
     description:
@@ -649,10 +665,10 @@ packages:
     dependency: transitive
     description:
       name: objective_c
-      sha256: "6cb691c686fa2838c6deb34980d426145c2a5d537491cb83d463c33cdbc726ed"
+      sha256: b7fb95a6d9a4f009edd63dc5ac69f07420b23a16161c6dd8660290b59c602e8e
       url: "https://pub.dev"
     source: hosted
-    version: "9.4.1"
+    version: "9.5.0"
   package_config:
     dependency: transitive
     description:
@@ -753,10 +769,10 @@ packages:
     dependency: transitive
     description:
       name: posix
-      sha256: "185ef7606574f789b40f289c233efa52e96dead518aed988e040a10737febb07"
+      sha256: bc1bad54ad2b735816e31f8d4600cfde6c7839975085ddfbca48b6c9f7c4044e
       url: "https://pub.dev"
     source: hosted
-    version: "6.5.0"
+    version: "6.5.2"
   pub_semver:
     dependency: transitive
     description:
@@ -777,10 +793,10 @@ packages:
     dependency: transitive
     description:
       name: riverpod
-      sha256: "17100416c51db7810c71a7bb2c34d1f881faa0074fd452afb0c4db6f8f126c76"
+      sha256: ccd1d45f07d20f894a975eeaa64d14a0dbbcfd0825bb59c3cd89837c2c21b436
       url: "https://pub.dev"
     source: hosted
-    version: "3.3.2"
+    version: "3.4.1"
   shared_preferences:
     dependency: "direct main"
     description:
