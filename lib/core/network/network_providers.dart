@@ -35,38 +35,52 @@ final dioProvider = Provider<Dio>((ref) {
           options.headers['Authorization'] = 'Bearer $token';
         }
         if (kDebugMode) {
-          _printLine(
-            '[API][REQ] ${options.method} ${options.baseUrl}${options.path}',
+          _printApiBox(
+            'API REQUEST',
+            '${options.method} ${options.baseUrl}${options.path}',
+            [
+              'HEADERS',
+              _readable(_redactedHeaders(options.headers)),
+              'QUERY',
+              _readable(options.queryParameters),
+              'BODY',
+              _readable(options.data),
+            ],
           );
-          _printLine('[API][REQ][HEADERS] ${_redactedHeaders(options.headers)}');
-          _printLine('[API][REQ][QUERY] ${options.queryParameters}');
-          _printLine('[API][REQ][BODY]\n${_readable(options.data)}');
         }
         handler.next(options);
       },
       onResponse: (response, handler) {
         if (kDebugMode) {
-          _printLine(
-            '[API][RES] ${response.statusCode} ${response.requestOptions.method} ${response.requestOptions.path}',
+          _printApiBox(
+            'API RESPONSE',
+            '${response.statusCode} ${response.requestOptions.method} ${response.requestOptions.path}',
+            ['BODY', _readable(response.data)],
           );
-          _printLine('[API][RES][BODY]\n${_readable(response.data)}');
         }
         handler.next(response);
       },
       onError: (error, handler) async {
         if (kDebugMode) {
-          _printLine(
-            '[API][ERR] ${error.response?.statusCode} ${error.requestOptions.method} ${error.requestOptions.path}',
+          _printApiBox(
+            'API ERROR',
+            '${error.response?.statusCode} ${error.requestOptions.method} ${error.requestOptions.path}',
+            [
+              'MESSAGE',
+              error.message ?? '',
+              'BODY',
+              _readable(error.response?.data),
+            ],
           );
-          _printLine('[API][ERR][MESSAGE] ${error.message}');
-          _printLine('[API][ERR][BODY]\n${_readable(error.response?.data)}');
         }
         if (_isExpiredSessionError(
           error,
           storage.readString('buyer_access_token'),
         )) {
-          final refreshed = await (refreshTokenRequest ??=
-              _refreshSessionToken(config: config, storage: storage));
+          final refreshed = await (refreshTokenRequest ??= _refreshSessionToken(
+            config: config,
+            storage: storage,
+          ));
           refreshTokenRequest = null;
 
           if (refreshed) {
@@ -212,7 +226,40 @@ String _redactAuthorization(Object? value) {
 }
 
 void _printLine(String message) {
-  debugPrint('$message\n');
+  const maxLogLineLength = 800;
+  for (final line in message.split('\n')) {
+    if (line.isEmpty) {
+      debugPrint('');
+      continue;
+    }
+
+    var start = 0;
+    while (start < line.length) {
+      final end = (start + maxLogLineLength < line.length)
+          ? start + maxLogLineLength
+          : line.length;
+      debugPrint(line.substring(start, end));
+      start = end;
+    }
+  }
+  debugPrint('');
+}
+
+void _printApiBox(String title, String route, List<String> lines) {
+  const border = '============================================================';
+  _printLine(border);
+  _printLine('$title | $route');
+  _printLine(border);
+  for (var i = 0; i < lines.length; i += 2) {
+    _printLine(lines[i]);
+    _printLine(lines[i + 1]);
+    if (i + 2 < lines.length) {
+      _printLine(
+        '------------------------------------------------------------',
+      );
+    }
+  }
+  _printLine(border);
 }
 
 String _readable(dynamic value) {
@@ -229,9 +276,24 @@ String _readable(dynamic value) {
   }
 
   if (value is Map || value is List) {
-    const encoder = JsonEncoder.withIndent('  ');
-    return encoder.convert(value);
+    return _prettyJson(value);
+  }
+
+  if (value is String) {
+    final trimmed = value.trim();
+    if (trimmed.startsWith('{') || trimmed.startsWith('[')) {
+      try {
+        return _prettyJson(jsonDecode(trimmed));
+      } on FormatException {
+        return value;
+      }
+    }
   }
 
   return value.toString();
+}
+
+String _prettyJson(Object? value) {
+  const encoder = JsonEncoder.withIndent('  ');
+  return encoder.convert(value);
 }
